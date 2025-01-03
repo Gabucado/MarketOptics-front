@@ -140,7 +140,7 @@ const VentasPage: React.FC = () => {
 
   return (
     <div className='center align-center flex-column'>
-      <h1 className="text-2xl font-bold mb-4">Inventarios</h1>
+      <h1 className="text-4xl font-bold mb-4">Inventarios</h1>
       <div ref={ref} className='flex-row align-middle' id="invantarios-chart"></div>
       <div className="mt-4">
         <label className="mr-2 font-medium">Granularidad:</label>
@@ -152,12 +152,6 @@ const VentasPage: React.FC = () => {
           <option value="mensual">Mensual</option>
         </select>
       </div>
-      <button 
-        className="mt-4 p-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        onClick={() => window.location.href = '/'}
-      >
-        Volver
-      </button>
     </div>
   );
 };

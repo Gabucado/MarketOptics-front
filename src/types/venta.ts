@@ -17,7 +17,7 @@ export type Venta = {
 };
 
 export type VentaPlot = {
-  fecha: string,
+  fecha: Date,
   total: number,
   cuenta: number
 }
