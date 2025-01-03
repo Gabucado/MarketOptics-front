@@ -57,114 +57,14 @@ const VentasPage: FC = () => {
       .domain([0, d3.max(data, d => d.cuenta) || 0])
       .range([300, 50]);
 
-    // // Dibujar las barras
-    // const bars = svg.selectAll('rect')
-    //   .data(data, d => d.fecha);
-
-    // // Transición para eliminar barras antiguas
-    // bars.exit()
-    //   .transition()
-    //   .duration(500)
-    //   .attr('y', 300)
-    //   .attr('height', 0)
-    //   .remove();
-
-    // // Transición para actualizar barras existentes
-    // bars.transition()
-    //   .duration(500)
-    //   .attr('x', d => x(d.fecha)!)
-    //   .attr('y', d => yTotal(d.total))
-    //   .attr('width', x.bandwidth())
-    //   .attr('height', d => 300 - yTotal(d.total))
-    //   .attr('fill', 'blue');
-
-    // // Transición para agregar nuevas barras
-    // bars.enter()
-    //   .append('rect')
-    //   .attr('x', d => x(d.fecha)!)
-    //   .attr('y', 300)
-    //   .attr('width', x.bandwidth())
-    //   .attr('height', 0)
-    //   .attr('fill', 'blue')
-    //   .transition()
-    //   .duration(500)
-    //   .attr('y', d => yTotal(d.total))
-    //   .attr('height', d => 300 - yTotal(d.total));
-
-    // const line = d3.line<VentaPlot>()
-    //   .x(d => (x(d.fecha) || 0) + x.bandwidth() / 2)
-    //   .y(d => yCount(d.cuenta))
-
-    // const path = svg.selectAll('.line-count').data([data]);
-
-    // path.exit().remove();
-
-    // path.enter()
-    //   .append('path')
-    //   .attr('class', 'line-count')
-    //   .attr('fill', 'none')
-    //   .attr('stroke', 'red')
-    //   .attr('stroke-width', 2)
-    //   .attr('d', line)
-    //   .merge(path)
-    //   .transition()
-    //   .duration(500)
-    //   .attr('d', line);
-
-
-    // const plot = Plot.plot({
-    //   marks: [
-    //     Plot.barY(data, { x: 'fecha', y: 'total', fill: 'blue', scale: yTotal }),
-    //     Plot.line(data, { x: 'fecha', y: 'cuenta', stroke: 'red', scale: yCount })
-    //   ],
-    //   x: {
-    //     label: 'Fecha'
-    //   },
-    //   y: {
-    //     label: 'Total'
-    //   },
-    //   color: {
-    //     legend: true
-    //   }
-    // });
-
-    // const plot = Plot.plot({
-    //   marks: [
-    //     Plot.barY(data, { x: 'fecha', y: 'total', fill: 'black', dx: 2, dy: 2 }),
-    //     Plot.barY(data, { x: 'fecha', y: 'total', fill: '#ccc' }),
-    //     (_, { x }, __, dimensions) => 
-    //       Plot.plot({
-    //         ...dimensions,
-    //         marks: [
-    //           Plot.line(data, { x: 'fecha', y: 'cuenta', stroke: 'steelblue', strokeWidth: 2 }),
-    //           Plot.dot(data, { x: 'fecha', y: 'cuenta', stroke: 'steelblue', r: 4, fill: "white" })
-    //         ],
-    //         x: {
-    //           type: "identity",
-    //           transform: (v) => x(v) + x.bandwidth() / 2,
-    //           axis: null
-    //         },
-    //         y: {axis: "right", nice: true, line: true},
-    //         color: {legend: true, label: "Cuenta", scheme: "Viridis"}
-    //       })
-    //   ],
-    //   marginLeft: 70,
-    //   marginRight: 50,
-    //   marginBottom: 50,
-    //   width: Math.min(1000, 780),
-    //   height: 400,
-
-    //   x: { ticks: [], padding: 0.4 },
-    //   y: { axis: "left" },
-    //   color: { legend: true, label: "Total", scheme: "Viridis" }
-    // })
-
     console.log(data);
 
     const minDate = d3.min(data, d => d.fecha);
     const maxDate = d3.max(data, d => d.fecha);
 
+    // @ts-ignore
     const extendedMinDate = d3.utcMonth.offset(minDate, 0);
+    // @ts-ignore
     const extendedMaxDate = d3.utcMonth.offset(maxDate, 1);
   
     const months = d3.utcMonths(extendedMinDate, extendedMaxDate);
@@ -183,12 +83,14 @@ const VentasPage: FC = () => {
           strokeDasharray: "0.75,2",
           strokeOpacity: 1
         }),
+        // @ts-ignore
         Plot.axisY({
           tickSize: 0, 
           dx: 60, 
           dy: -6, 
           
           lineAnchor: "bottom",
+          // @ts-ignore
           tickFormat: (d, i, _) => (i === _.length - 1 ? `$${d}` : d),
           label: detail === 'total' ? "Agregado de Ventas" : 'Ventas por periodo'
         }),

@@ -47,13 +47,12 @@ const VentasPage: React.FC = () => {
     const width = 600;
     const height = 500;
 
-    const xScale = d3.scaleTime() 
-      .domain(d3.extent(data, d => d.fecha)); 
-
     const minDate = d3.min(data, d => d.fecha);
     const maxDate = d3.max(data, d => d.fecha);
 
+    // @ts-ignore
     const extendedMinDate = d3.utcMonth.offset(minDate, 0);
+    // @ts-ignore
     const extendedMaxDate = d3.utcMonth.offset(maxDate, 1);
   
     const months = d3.utcMonths(extendedMinDate, extendedMaxDate);
@@ -71,9 +70,9 @@ const VentasPage: React.FC = () => {
         scheme: "Viridis", 
         legend: 'swatches', 
         grid: true,
+        // @ts-ignore
         columns: 1,
         reverse: true,
-        
       },
       marks: [
         Plot.ruleX(months, {
@@ -82,6 +81,7 @@ const VentasPage: React.FC = () => {
           strokeWidth: 2,
           strokeOpacity: 0.5,
         }),
+        Plot.ruleY([0]),
         Plot.text(months, {
           x: d => d,
           y: 0,
@@ -96,30 +96,30 @@ const VentasPage: React.FC = () => {
           title: "nombre",
           fill: "black",
           dx: 2, dy: 2,
-          xScale
+          // xScale
         }),
         Plot.barY(data, { 
           x: "fecha", 
           y: "cantidad",
           title: "nombre",
           fill: "nombre",
-          xScale
+          // xScale
         })
       ]
     })
 
-    ref.current.innerHTML = '';
-    ref.current.appendChild(chart);
+    ref.current!.innerHTML = '';
+    ref.current!.appendChild(chart);
 
     d3.select(ref.current).selectAll("rect")
       .on("mouseover", function(event, d) {
         d3.select(this).attr("opacity", 1);
         d3.select(ref.current).selectAll("rect").filter((e, i, g) => {
           if (typeof(d) === 'number') {
-            return g[i].textContent !== event.target.textContent && g[i].__data__ !== event.target.textContent;
+            return (g[i] as SVGRectElement).textContent !== (event.target as SVGRectElement).textContent && (g[i] as any).__data__ !== (event.target as SVGRectElement).textContent;
           }
           if (typeof(d) !== 'number') {
-            return e !== d && g[i].textContent !== d;
+            return e !== d && (g[i] as Element).textContent !== d;
           }
           return e !== d;
         }).attr("opacity", 0.2);
