@@ -29,7 +29,7 @@ const VentasPage: React.FC = () => {
         }, {})
 
         const newData = Object.entries(aggregatedData).flatMap(([fecha, products]) => 
-          Object.entries(products).map(([productId, {cantidad, nombre}]) => ({
+          Object.entries(products).map(([_, {cantidad, nombre}]) => ({
             fecha: new Date(fecha),
             nombre,
             cantidad
@@ -50,9 +50,9 @@ const VentasPage: React.FC = () => {
     const minDate = d3.min(data, d => d.fecha);
     const maxDate = d3.max(data, d => d.fecha);
 
-    // @ts-ignore
+    // @ts-expect-error
     const extendedMinDate = d3.utcMonth.offset(minDate, 0);
-    // @ts-ignore
+    // @ts-expect-error
     const extendedMaxDate = d3.utcMonth.offset(maxDate, 1);
   
     const months = d3.utcMonths(extendedMinDate, extendedMaxDate);
@@ -70,7 +70,7 @@ const VentasPage: React.FC = () => {
         scheme: "Viridis", 
         legend: 'swatches', 
         grid: true,
-        // @ts-ignore
+        // @ts-expect-error
         columns: 1,
         reverse: true,
       },
@@ -116,6 +116,7 @@ const VentasPage: React.FC = () => {
         d3.select(this).attr("opacity", 1);
         d3.select(ref.current).selectAll("rect").filter((e, i, g) => {
           if (typeof(d) === 'number') {
+            // @ts-ignore
             return (g[i] as SVGRectElement).textContent !== (event.target as SVGRectElement).textContent && (g[i] as any).__data__ !== (event.target as SVGRectElement).textContent;
           }
           if (typeof(d) !== 'number') {

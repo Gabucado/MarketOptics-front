@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, FC, use } from 'react';
+import { useState, useEffect, FC } from 'react';
 import * as Plot from '@observablehq/plot';
 import * as d3 from 'd3';
 import { Venta, VentaPlot } from '@/types/venta';
@@ -39,37 +39,15 @@ const VentasPage: FC = () => {
   useEffect(() => {
     if (data.length === 0) return;
 
-    // const svg = d3.select('#ventas-chart').html('')
-    //   .append('svg')
-    //   .attr('width', 500)
-    //   .attr('height', 300);
-
-    // const x = d3.scaleBand()
-    //   .domain(data.map(d => d.fecha))
-    //   .range([0, 500])
-    //   .padding(0.1);
-
-    const yTotal = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d.total) || 0])
-      .range([300, 0]);
-
-    const yCount = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d.cuenta) || 0])
-      .range([300, 50]);
-
-    console.log(data);
-
     const minDate = d3.min(data, d => d.fecha);
     const maxDate = d3.max(data, d => d.fecha);
 
-    // @ts-ignore
+    // @ts-expect-error
     const extendedMinDate = d3.utcMonth.offset(minDate, 0);
-    // @ts-ignore
+    // @ts-expect-error
     const extendedMaxDate = d3.utcMonth.offset(maxDate, 1);
   
     const months = d3.utcMonths(extendedMinDate, extendedMaxDate);
-
-    console.log(minDate, maxDate, extendedMaxDate, extendedMinDate, months);
 
     const plot = Plot.plot({
       caption: `Figura: ${detail === 'total' ? 'Agregado de Ventas' : 'Ventas por periodo'}`,
@@ -83,14 +61,14 @@ const VentasPage: FC = () => {
           strokeDasharray: "0.75,2",
           strokeOpacity: 1
         }),
-        // @ts-ignore
+        // @ts-expect-error
         Plot.axisY({
           tickSize: 0, 
           dx: 60, 
           dy: -6, 
           
           lineAnchor: "bottom",
-          // @ts-ignore
+          // @ts-expect-error
           tickFormat: (d, i, _) => (i === _.length - 1 ? `$${d}` : d),
           label: detail === 'total' ? "Agregado de Ventas" : 'Ventas por periodo'
         }),

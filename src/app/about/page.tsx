@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { FC } from "react";
 
 const AboutPage: FC = () => {
@@ -18,7 +19,7 @@ const AboutPage: FC = () => {
 
       <div className='mt-6'>
         <h2 className='text-2xl font-semibold'>Diagrama</h2>
-        <img src="/Diagram.svg" alt="SVG Diagram" className='mt-4' />
+        <Image src="/Diagram.svg" alt="SVG Diagram" width={400} height={400} className='mt-4' />
       </div>
   </div>
 }
